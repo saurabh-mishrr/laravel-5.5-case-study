@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Candidate;
 use App\Repositories\Candidates as CandidateRepo;
 use Validator;
+use App\Rules\CandidateEmailValidate;
 
 class CandidatesController extends Controller
 {
@@ -117,7 +118,7 @@ class CandidatesController extends Controller
     		'company' => 'required|max:50',
     		'hobbies' => 'required',
     		'qualification' => 'required|max:50|in:Graduate,Post Graduate',
-    		'email' => 'required|email',
+    		'email' => ['required', 'email', new CandidateEmailValidate($id)],
     		'resume' => 'nullable|mimes:doc,pdf,docx'
     	])->validate();
     	$path = null;

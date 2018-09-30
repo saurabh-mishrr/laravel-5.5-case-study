@@ -55,6 +55,18 @@ class Candidates
 				}
 			}
 		}
+		if (array_key_exists('where', $options)) {
+			$where = []; 
+			if (is_array($options['where'])) {
+				foreach ($options['where'] as $key => $value) {
+					foreach ($value as $condition => $compareWith) {
+						$condition = str_replace('eq', '=', $condition);
+						$where[] = [$key, $condition, $compareWith];
+					}
+				}
+			}
+			$this->result = ($this->model)->where($where);
+		}
 		return ($this->result)->get();
 	}
 

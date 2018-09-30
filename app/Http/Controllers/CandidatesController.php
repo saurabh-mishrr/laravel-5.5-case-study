@@ -1,29 +1,74 @@
 <?php
+
 /**
- * @author Saurabh Mishra
+ * @author Saurabh Mishra <saurabh.mishrr@gmail.com>
  * @version 1
- * 
+ *
  */
 
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Candidate;
+use App\Repositories\Candidates as CandidateRepo;
 use Validator;
 
 class CandidatesController extends Controller
 {
+    /*
+    |--------------------------------------------------------------------------
+    | Candidates Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller is responsible for handling all operations perform on 
+    | candidates table
+    |
+    */
+
+    /**
+     * Which repository object will be used.
+     *
+     * @var Object
+     */
+	private $repo;
+
+	/**
+     * Create a new repository instance.
+     *
+     * @return void
+     */
+	public function __construct()
+	{
+		$this->repo = new CandidateRepo;
+	}
+
+    /**
+     * Get all candidate's data.
+     *
+     * @return void
+     */
     public function index()
     {
-    	$candidates = Candidate::orderBy('name', 'asc')->paginate(10);
+    	$candidates = ($this->repo)->getAllCandidates(array('orderBy' => array('name' => 'asc')));
     	return view('candidates.index', compact('candidates'));
     } 
 
+    /**
+     * Display add candidate's data form.
+     *
+     * @return void
+     */
     public function create()
     {
     	return view('candidates.form');
     }
 
+    /**
+     * Add candidate's data for an incoming request.
+     *
+     * @param  Object  $request
+     * @return void
+     */
     public function store(Request $request)
     {
 
@@ -38,26 +83,33 @@ class CandidatesController extends Controller
     	
     	$path = $request->resume->store('resumes');
 
-    	$model = new Candidate;
-    	$model->name = $request->name;
-    	$model->email = $request->email;
-    	$model->company = $request->company;
-    	$model->qualification = $request->qualification;
-    	$model->resume = $path;
-    	$model->save();
+    	($this->repo)->storeOrUpdateCandidatesData($request, $path);
 
     	return redirect()->route('managecv')->with('message', 'Data Saved Successfully!');
     	
     }
 
-    public function edit($id) 
+    /**
+     * Display update candidate's data form.
+     *
+     * @param  Int  $id
+     * @return void
+     */
+    public function edit(int $id) 
     {
-    	$candidates = Candidate::find($id);
+    	$candidates = ($this->repo)->getCandidateDataById($id);
     	$updateText = 'Update';
-
     	return view('candidates.form', compact('candidates', 'updateText'));
     }
 
+    /**
+     * Update candidate's data for an incoming request.
+     *
+     * @param  Object  $request
+     * @param  Object  $candidates
+     * @param  Int     $id
+     * @return void
+     */
     public function update(Request $request, Candidate $candidates, $id)
     {
     	$validator = Validator::make($request->all(),[
@@ -68,23 +120,23 @@ class CandidatesController extends Controller
     		'email' => 'required|email',
     		'resume' => 'nullable|mimes:doc,pdf,docx'
     	])->validate();
-    	if ($validator->fails()) {
-    		return redirect()->back()->withInput();
+    	$path = null;
+    	if ($request->resume) {
+    		$path = $request->resume->store('resumes');
     	}
-    	#$path = $request->resume->store('resumes');
-    	$candidate = Candidate::find($id);
-    	$candidate->name = $request->name;
-    	$candidate->email = $request->email;
-    	$candidate->company = $request->company;
-    	$candidate->qualification = $request->qualification;
-    	#$candidate->resume = $path;
-    	$candidate->save();
+    	($this->repo)->storeOrUpdateCandidatesData($request, $path, $id);
     	return redirect()->route('managecv')->with('success','Data Updated successfully');
     }
 
-    public function destroy($id)
+    /**
+     * Delete candidate's data for an incoming request.
+     *
+     * @param  Int     $id
+     * @return void
+     */
+    public function destroy(int $id)
     {
-    	Candidate::destroy($id);
+    	($this->repo)->deleteCandidateData($id);
     	return redirect()->route('managecv')->with('success','Data Deleted successfully');
     }
 }

@@ -11,6 +11,7 @@
 |
 */
 
+
 Auth::routes();
 Route::get('/', 'CandidatesController@index')->name('home');
 Route::get('submit-cv', 'CandidatesController@create')->name('submitcv');

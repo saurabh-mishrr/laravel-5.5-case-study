@@ -41,20 +41,39 @@
 			  </div>
 			  <div class="form-group">
 			    <label for="exampleFormControlInput1">Hobbies</label>
-			    <div class="input-group mb-3">
-			    	<input type="text" name = 'hobbies'  class="form-control" id="exampleFormControlInput1" placeholder="Hobbies" value="<?php echo e(isset($candidates->hobbies) ? $candidates->hobbies : old('hobbies')); ?>">
-			    	<div class="input-group-append">
-			    		<button type="button" class="btn btn-outline-secondary add-more-hobbies">+</button>
-			    	</div>
-			    </div>
-			    <div class="more-hobbies-container"></div>
+			    	<?php if(!empty($candidates->hobbies)): ?>
+				    	<?php
+				    		$hobbies = explode(',', $candidates->hobbies);
+				    		$i = 1;
+				    		$moreHobbies = '';
+				    	?>
+					<?php endif; ?>
+					<?php if(!empty($hobbies)): ?> 
+						<?php $__currentLoopData = $hobbies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $hobbiesVal): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+				    		<input type="text" name = 'hobbies[]'  class="form-control" id="exampleFormControlInput1" placeholder="Hobbies" value="<?php echo e($hobbiesVal); ?>">
+				    		<?php if($i == 1): ?>
+						    	<div class="input-group-append">
+						    		<button type="button" class="btn btn-outline-secondary add-more-hobbies">+</button>
+						    	</div>
+				    		<?php endif; ?>
+				    		<?php
+				    		 	++$i;
+				    		?>
+						<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>	
+					<?php else: ?>
+						<input type="text" name = 'hobbies[]'  class="form-control" id="exampleFormControlInput1" placeholder="Hobbies" value="<?php echo e(isset($candidates->hobbies) ? $candidates->hobbies : old('hobbies')); ?>">	
+						<div class="input-group-append">
+				    		<button type="button" class="btn btn-outline-secondary add-more-hobbies">+</button>
+				    	</div>	    	
+					<?php endif; ?>
+			    <div class="more-hobbies-container"> </div>
 			  </div>
 			  <div class="form-group">
 			    <label for="exampleFormControlSelect1">Qualification</label>
 			    <select class="form-control" name = 'qualification'  id="exampleFormControlSelect1" value="<?php echo e(isset($candidates->qualification) ? $candidates->qualification : old('qualification')); ?>">
 			      <option value="">Choose</option>
-			      <option value="Graduate">Graduate</option>
-			      <option value="Post Graduate">Post Graduate</option>
+			      <option value="Graduate" <?php if(isset($candidates->qualification) && $candidates->qualification == 'Graduate'): ?> <?php echo e("selected"); ?>  <?php endif; ?>>Graduate</option>
+			      <option value="Post Graduate" <?php if(isset($candidates->qualification) && $candidates->qualification == 'Post graduate'): ?> <?php echo e("selected"); ?>  <?php endif; ?>>Post Graduate</option>
 			    </select>
 			  </div>
 			  <div class="form-group">
@@ -73,7 +92,7 @@
 	$(function(){
 		$('.add-more-hobbies').click(function(){
 			let total_hobbies = $('input[name="hobbies"]').length;
-			$('.more-hobbies-container').append('</br><input type="text" name = "hobbies"  class="form-control" id="exampleFormControlInput1" placeholder="Hobbies">');
+			$('.more-hobbies-container').append('</br><input type="text" name = "hobbies[]"  class="form-control" id="exampleFormControlInput1" placeholder="Hobbies">');
 		});
 	})
 </script>

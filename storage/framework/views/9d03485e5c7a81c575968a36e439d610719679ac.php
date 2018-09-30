@@ -34,11 +34,18 @@
             <tbody>
                 <?php $__currentLoopData = $candidates; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $member): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
+                    <?php
+
+                        $hobbies = implode('', array_map(function($value){
+                            return $value."<br/>";
+                        }, explode(',', $member->hobbies)));
+
+                    ?>
                     <td><?php echo e($member->name); ?></td>
                     <td><?php echo e($member->company); ?></td>
                     <td><?php echo e($member->email); ?></td>
                     <td><?php echo e($member->qualification); ?></td>
-                    <td><?php echo e(isset($member->hobbies) ? $member->hobbies : ""); ?></td>
+                    <td><?php echo isset($hobbies) ? $hobbies : ""; ?></td>
                     <td>
                         <a href="<?php echo e(route('editcv', $member->id)); ?>">Edit</a> | <a href="<?php echo e(route('deletecv', $member->id)); ?>">Delete</a>
                     </td>

@@ -36,11 +36,18 @@
             <tbody>
                 @foreach ($candidates as $member)
                 <tr>
+                    @php
+
+                        $hobbies = implode('', array_map(function($value){
+                            return $value."<br/>";
+                        }, explode(',', $member->hobbies)));
+
+                    @endphp
                     <td>{{ $member->name}}</td>
                     <td>{{ $member->company}}</td>
                     <td>{{ $member->email}}</td>
                     <td>{{ $member->qualification}}</td>
-                    <td>{{ $member->hobbies or "" }}</td>
+                    <td>{!! $hobbies or "" !!}</td>
                     <td>
                         <a href="{{ route('editcv', $member->id) }}">Edit</a> | <a href="{{ route('deletecv', $member->id) }}">Delete</a>
                     </td>

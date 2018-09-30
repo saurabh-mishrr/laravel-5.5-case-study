@@ -1,13 +1,16 @@
 # laravel-5.5-case-study
 This repository is based on Laravel 5.5, I have covered CRUD operation in this repository, also IoC, Service provider, Facades have been used in this.
 
-## Prerequisite
+## Prerequisite/ What I've used
 
-Scotch Box 3.5 (Ref: https://box.scotch.io)
-Vagrant 2.1.5
-Laravel 5.5
-PHP7.1
-MySQL
+Ubuntu (18.04) <br/>
+Scotch Box 3.5 (Ref: https://box.scotch.io) <br/>
+Vagrant 2.1.5 <br/>
+Laravel 5.5 <br/>
+PHP7.1 <br/>
+MySQL <br/>
+Composer <br/>
+Git <br/>
 
 ## Case study
 
@@ -48,6 +51,25 @@ MySQL
 	    4) Use vagrant (scotch box) to install the Laravel.
 	Learning material
 	    1) https://laracasts.com/series/laravel-5-fundamentals
+
+
+## Steps to be followed (Perform in terminal)
+	
+	• Install Vagrant
+
+		sudo apt-get install vagrant
+
+	• Install Laravel 5.5 via composer
+
+		cd /var/www/html/
+		composer create-project --prefer-dist laravel/laravel job-portal "5.5.*"
+
+	• Install Scotch Box
+
+		git clone https://github.com/scotch-io/scotch-box job-portal
+		cd job-portal
+		vagrant up  (It will take bit time to install virtual setup in your current directory)
+
 
 
 Note: Used Scotch Box comes with PHP7.0, but we need PHP7.1 for our project, so follow below steps to install PHP7.1.

@@ -53,7 +53,7 @@ Git <br/>
 	    1) https://laracasts.com/series/laravel-5-fundamentals
 
 
-## Steps to be followed (Perform in terminal)
+## Steps to be followed for installation (Perform in terminal)
 	
 	• Install Vagrant
 
@@ -70,7 +70,41 @@ Git <br/>
 		cd job-portal
 		vagrant up  (It will take bit time to install virtual setup in your current directory)
 
+	(Note: Used Scotch Box comes with PHP7.0, but we need PHP7.1 for our project, so follow below steps to install PHP7.1.)
+
+	• Install PHP7.1
+
+		vagrant ssh
+		sudo apt-get purge php7.0
+		sudo a2dismod php7.0
+		sudo apt-get install software-properties-common
+		sudo add-apt-repository ppa:ondrej/php
+		sudo apt-get update
+		sudo apt-get install php7.1 php7.1-*
+		sudo a2enmod php7.1
+		sudo service apache2 restart
 
 
-Note: Used Scotch Box comes with PHP7.0, but we need PHP7.1 for our project, so follow below steps to install PHP7.1.
+## Steps to be followed for Project start
 
+	(Make sure you are still in Scotch box's ssh window, if not go to directory where you have installed laravel and type `vagrant ssh` you should see """vagrant@scotchbox:~$""" something like this.)
+	
+	• Config changes
+
+		1) cd /var/www   (You should see your laravel project here.)
+		2) Create database in MySQL (Scotch box comes with default database ie. scotchbox, you are free to use this else you can create your own.)
+			mysql -u root -proot -e 'create database job_portal'
+		3) Database connection changes in .env file.
+
+	• Generate migration file
+
+		1) php artisan make:migration create_candidates_table
+		2) file will be generated under /var/www/job-portal/database/
+		3) You can copy content of this repository's file
+		4) php artisan migrate  (this command will create tables in database)
+		5) php artisan make:model Candidate (this command will generate model under /var/www/job-portal/app)
+		6) php artisan make:controller CandidatesController (this command will generate controller under /var/www/job-portal/app/Http).
+		7) For views create folder under /var/www/job-portal/resources called `candidates`.
+		8) Copy all view files from this repository to your view directory. 
+
+	(CRUD operations have been written in CandidatesController.php, Candidate.php and views, but operations cannot be done without help of routes, so for that copy the content of /var/www/job-portal/routes/web.php into your web.php file.)

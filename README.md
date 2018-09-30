@@ -108,3 +108,35 @@ Git <br/>
 		8) Copy all view files from this repository to your view directory. 
 
 	(CRUD operations have been written in CandidatesController.php, Candidate.php and views, but operations cannot be done without help of routes, so for that copy the content of /var/www/job-portal/routes/web.php into your web.php file.)
+
+## Functionality wise files added
+	
+	• Controller(s)
+
+		app/Http/Controllers/CandidatesController.php  (Server side validation and Facade are here)
+
+	• Model(s)
+
+		app/Candidate.php    (Fillable variables are defined here)
+
+	• View(s)
+
+		resources/views/candidates/form.blade.php  (For insert,update)
+		resources/views/candidates/index.blade.php (For display all)
+
+	• Rule(s)
+
+		app/Rules/CandidateEmailValidate.php   (Extra validation for email is added here)
+
+	• Repositories
+
+		app/Repositories/Candidates.php   (Model related queries, IoC have been used here)
+
+	• Route(s)
+
+		routes/web.php    (Routing rules are defined here)
+
+	• Migration(s)
+
+		database/migrations/2018_09_26_161707_create_candidates_table.php   (Table structure defined here)
+

@@ -1,0 +1,29 @@
+Model 
+	protected $table = 'table_name'
+	protected $primaryKey = 'primary key field name'
+	public $incrementing = false
+	protected $keyType = 'string'
+	public $timestamps = false
+	const CREATED_AT = 'creation_date'
+	const UPDATED_AT = 'last_updated'
+	protected $connection = 'connection-name'
+	chunk(limit, clouser_function)
+	cursor()
+	
+
+
+chunk results 
+request next on server request
+use char for those column only whose value size will be same on all rows
+on press next button get next data and on pressing previous get previous one
+add comments in all program
+use soft delete to delete the records
+hold file after updating record
+
+Blade templeting
+IoC
+Facades
+CRUD
+Unit Test
+Route
+Session flush message

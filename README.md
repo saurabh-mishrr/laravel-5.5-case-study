@@ -107,4 +107,4 @@ Git <br/>
 		7) For views create folder under /var/www/job-portal/resources called `candidates`.
 		8) Copy all view files from this repository to your view directory. 
 
-	(CRUD operations have been written in CandidatesController.php, Candidate.php and views, but operations cannot be done without help of routes, so for that copy the content of /var/www/job-portal/routes/web.php into your web.php file.)
+	(CRUD operations have been written in CandidatesController.php, Candidate.php and views, but operations cannot be done without help of routes, so for that copy the content of <b><i>/var/www/job-portal/routes/web.php</i></b> into your web.php file.)
